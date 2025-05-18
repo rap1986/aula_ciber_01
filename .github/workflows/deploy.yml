@@ -1,0 +1,18 @@
+name: Deploy / Atualizar Servidores
+run-name: Deploy do artefato ${{ inputs.releasetag }} em ${{ inputs.ambiente }} disparada por ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      releasetag:
+        description: "Nome do artefato/versão"
+        type: string
+        required: true
+      ambiente:
+        type: choice
+        description: 'Ambiente'
+        required: true
+        default: 'TST'
+        options:
+        - TST
+        - PRD
