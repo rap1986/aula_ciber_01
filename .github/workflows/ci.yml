@@ -26,7 +26,7 @@ jobs:
           build_path=build/ci_cd_projeto/backend/dist
           zip -r backend.zip $build_path
       - name: Upload Zip Backend
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend.zip
           path: backend.zip
@@ -51,7 +51,7 @@ jobs:
           build_path=build/ci_cd_projeto/frontend/dist
           zip -r frontend.zip $build_path
       - name: Upload Zip Backend
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend.zip
           path: frontend.zip
