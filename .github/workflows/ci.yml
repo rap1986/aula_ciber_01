@@ -5,7 +5,7 @@ on:
   # inicia o workflow manualmente
   workflow_dispatch:
     inputs:
-      versao:
+      tipo_versao:
         type: choice
         description: 'Tipo de build'     
         required: true
@@ -16,6 +16,47 @@ on:
         - minor
         - major
 jobs:  
+  GerarVersao:
+    runs-on: ubuntu-latest
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+    steps:
+      - name: Coleta última versão
+        id: ultimatag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 0.0.0
+          workingDirectory: ${{ github.workspace }}/build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Número próximas versões
+        id: versoes
+        uses: "WyriHaximus/github-action-next-semvers@v1"
+        with:
+          version: ${{ steps.ultimatag.outputs.tag }}
+      - name: Versão
+        id: versao
+        shell: sh
+        run: |
+          versao=$(
+            case "${{ inputs.tipo_versao }}" in
+              ("patch") echo "${{ steps.versoes.outputs.patch }}" ;;
+              ("minor") echo "${{ steps.versoes.outputs.minor }}" ;;
+              ("major") echo "${{ steps.versoes.outputs.major }}" ;;
+              ("replace_last") echo "${{ steps.ultimatag.outputs.tag }}" ;;
+              ("snapshot") echo "${{ steps.versoes.outputs.minor }}.${{ github.ref_name }}.snapshot" ;;
+              (*) echo "${{ steps.versoes.outputs.minor }}.snapshot" ;;
+            esac)
+          echo "--- Versões ---"
+          echo "snapshot=${{ steps.versoes.outputs.minor }}.snapshot"
+          echo "patch=${{ steps.versoes.outputs.patch }}"
+          echo "minor=${{ steps.versoes.outputs.minor }}"
+          echo "major=${{ steps.versoes.outputs.major }}"
+          echo "replace_last=${{ steps.ultimatag.outputs.tag }}"
+          echo "--- Versão escolhida ---"
+          echo "versao=${versao}"
+          echo "versao=${versao}" >> "$GITHUB_OUTPUT"
+
   build_back:
     name: Build Back
     runs-on: ubuntu-latest
