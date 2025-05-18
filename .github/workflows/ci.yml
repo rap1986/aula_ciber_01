@@ -78,4 +78,6 @@ jobs:
        with:
          body: Release
          tag_name: Release
-         files: backend.zip; frontend.zip
+         files: 
+           backend.zip
+           frontend.zip
