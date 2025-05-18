@@ -59,6 +59,7 @@ jobs:
 
   build_back:
     name: Build Back
+    needs: [GerarVersao]
     runs-on: ubuntu-latest
     steps:
       - name: Baixando o repositório
@@ -84,6 +85,7 @@ jobs:
           path: build/ci_cd_projeto/backend/backend.zip
   build_front:
     name: Build Front
+    needs: [GerarVersao]
     runs-on: ubuntu-latest
     steps:
       - name: Baixando o repositório
@@ -109,7 +111,7 @@ jobs:
           path: build/ci_cd_projeto/frontend/frontend.zip
   empacotar:
     name: Empacotar
-    needs: [build_back, build_front]
+    needs: [build_back, build_front, GerarVersao]
     runs-on: ubuntu-latest
     steps:
      - name: Download Zip Frontend
