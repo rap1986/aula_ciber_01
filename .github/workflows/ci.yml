@@ -32,9 +32,14 @@ jobs:
       - name: Compila o(s) projeto(s)
         shell: bash
         run: |
-          cd build/ci_cd_projeto/backend
+          cd build/ci_cd_projeto/frontend
           npm install
           npm run build
+      - name: Compacta(Zip) buid
+        shell: bash
+        run: |
+          build_path=build/ci_cd_projeto/frontend
+          zip -r frontend.zip $build_path
   empacotar:
     name: Empacotar
     needs: [build_back, build_front]
