@@ -23,8 +23,13 @@ jobs:
       - name: Compacta(Zip) buid
         shell: bash
         run: |
-          build_path=build/ci_cd_projeto/backend
+          build_path=build/ci_cd_projeto/backend/dist
           zip -r backend.zip $build_path
+      - name: Upload Zip Backend
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend.zip
+          path: backend.zip
   build_front:
     name: Build Front
     runs-on: ubuntu-latest
@@ -43,8 +48,13 @@ jobs:
       - name: Compacta(Zip) buid
         shell: bash
         run: |
-          build_path=build/ci_cd_projeto/frontend
+          build_path=build/ci_cd_projeto/frontend/dist
           zip -r frontend.zip $build_path
+      - name: Upload Zip Backend
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend.zip
+          path: frontend.zip
   empacotar:
     name: Empacotar
     needs: [build_back, build_front]
