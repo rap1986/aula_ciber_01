@@ -79,4 +79,4 @@ jobs:
          body: Release
          tag_name: Release
          fail_on_unmatched_files: true
-         files: \*.zip
+         files: backend.zip
