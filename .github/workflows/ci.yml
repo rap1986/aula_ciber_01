@@ -20,6 +20,11 @@ jobs:
           cd build/ci_cd_projeto/backend
           npm install
           npm run build
+      - name: Compacta(Zip) buid
+        shell: bash
+        run: |
+          build_path=build/ci_cd_projeto/backend
+          zip -r backend.zip $build_path
   build_front:
     name: Build Front
     runs-on: ubuntu-latest
