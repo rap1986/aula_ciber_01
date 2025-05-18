@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend
-          path: build/ci_cd_projeto/backend/dist
+          path: build/ci_cd_projeto/backend/backend.zip
   build_front:
     name: Build Front
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend
-          path: build/ci_cd_projeto/frontend/dist
+          path: build/ci_cd_projeto/frontend/frontend.zip
   empacotar:
     name: Empacotar
     needs: [build_back, build_front]
@@ -64,17 +64,13 @@ jobs:
        uses: actions/download-artifact@v4
        with:
          name: frontend
-         path: zip_front
-     - name: Download Zip backend
+     - name: Download Zip Backend
        uses: actions/download-artifact@v4
        with:
          name: backend
-         path: zip_back
-     - name: Download Zip backend
+     - name: Listar os arquivos
        shell: bash
-       run: |
-         ls zip_back
-         ls zip_back
+       run:  ls 
      - name: Criar Versão / Release e Tag
        uses: softprops/action-gh-release@v2
        env:
