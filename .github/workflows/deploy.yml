@@ -16,3 +16,16 @@ on:
         options:
         - TST
         - PRD
+
+jobs:
+  app_publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Baixa a release informada
+      - name: Download Release
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: 'rap1986/planner'
+          version: "tags/${{ github.event.inputs.releasetag }}"
+          file: 'artefato.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}
