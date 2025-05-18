@@ -9,8 +9,9 @@ on:
         type: choice
         description: 'Tipo de build'     
         required: true
-        default: 'minor'
+        default: 'snapshot'
         options:
+        - snapshot
         - patch
         - minor
         - major
