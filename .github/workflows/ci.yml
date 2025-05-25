@@ -23,15 +23,11 @@ jobs:
     steps:
       - name: Baixando o repositório
         uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}
-          path: build
       - name: Coleta última versão
         id: ultimatag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
+        #with:
         #  fallback: 0.0.0
-          workingDirectory: ${{ github.workspace }}/build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Número próximas versões
