@@ -35,3 +35,35 @@ jobs:
           version: "tags/${{ github.event.inputs.releasetag }}"
           file: 'frontend.zip'
           token: ${{ secrets.GITHUB_TOKEN }}
+      # Descompacta backend
+      - name: Descompact Zip
+        shell: bash
+        run: |
+          unzip backend.zip backend
+          unzip frontend.zip frontend
+      # SSH Key
+      - name: Baixa KeyPair
+        run: |
+          echo "${{ secrets.KEYPAR_RSA }}" > keypair.pem
+          sudo chmod 400 keypair.pem
+      - name: Adiciona ao known_hosts
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh/
+          echo $(echo ${{ secrets.URL_TST }} | sed 's/.*@//')
+          ssh-keyscan -H $(echo ${{ secrets.URL_TST }} | sed 's/.*@//') >> ~/.ssh/known_hosts
+          ssh-keyscan -H $(echo ${{ secrets.URL_PRD }} | sed 's/.*@//') >> ~/.ssh/known_hosts
+          sudo chmod 600 ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
+      #Atualiza em TST
+      - name: Atualiza em TST
+        if: ${{ inputs.ambiente == 'TST' }}
+        run: |
+          rsync -e "ssh -i keypair.pem" -avz backend/* ${{ secrets.URL_TST }}:${{ secrets.PASTA_PROJETO }}/tst/backend
+          rsync -e "ssh -i keypair.pem" -avz frontend/* ${{ secrets.URL_TST }}:${{ secrets.PASTA_PROJETO }}/tst/frontend
+      #Atualiza Produção
+      - name: Atualiza em PRD
+        if: ${{ inputs.ambiente == 'PRD' }}
+        run: |
+          rsync -e "ssh -i keypair.pem" -avz backend/* ${{ secrets.URL_PRD }}:${{ secrets.PASTA_PROJETO }}/prd/backend
+          rsync -e "ssh -i keypair.pem" -avz frontend/* ${{ secrets.URL_PRD }}:${{ secrets.PASTA_PROJETO }}/prd/frontend
