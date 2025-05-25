@@ -40,8 +40,8 @@ jobs:
         shell: bash
         run: |
           ls
-          unzip backend.zip backend
-          unzip frontend.zip frontend
+          unzip backend.zip
+          unzip frontend.zip
       # SSH Key
       - name: Baixa KeyPair
         run: |
