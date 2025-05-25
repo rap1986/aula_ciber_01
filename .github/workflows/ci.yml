@@ -1,5 +1,5 @@
 name: CI - Snapshot
-run-name: CI snapshot disparada por ${{ github.actor }}
+run-name: CI ${{ inputs.tipo_versao }} disparada por ${{ github.actor }}
 
 on:   
   # inicia o workflow manualmente
