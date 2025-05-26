@@ -58,8 +58,8 @@ jobs:
           echo "major=${{ steps.versoes.outputs.major }}_to_ligado"
           echo "replace_last=${{ steps.ultimatag.outputs.tag }}_to_ligado"
           echo "--- Versão escolhida ---"
-          echo "versao=${versao}"
-          echo "versao=${versao}" >> "$GITHUB_OUTPUT"
+          echo "versao=${versao}_to_ligado"
+          echo "versao=${versao}_to_ligado" >> "$GITHUB_OUTPUT"
   Assim:
     runs-on: ubuntu-latest
     outputs:
