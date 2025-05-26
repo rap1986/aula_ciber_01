@@ -17,6 +17,7 @@ on:
         - major
 jobs:  
   GerarVersao:
+    needs: [Assim,FicaFacil]
     runs-on: ubuntu-latest
     outputs:
       versao: ${{ steps.versao.outputs.versao }}
@@ -51,14 +52,28 @@ jobs:
               (*) echo "${{ steps.versoes.outputs.minor }}.snapshot" ;;
             esac)
           echo "--- Versões ---"
-          echo "snapshot=${{ steps.versoes.outputs.minor }}.snapshot"
-          echo "patch=${{ steps.versoes.outputs.patch }}"
-          echo "minor=${{ steps.versoes.outputs.minor }}"
-          echo "major=${{ steps.versoes.outputs.major }}"
-          echo "replace_last=${{ steps.ultimatag.outputs.tag }}"
+          echo "snapshot=${{ steps.versoes.outputs.minor }}.snapshot_to_ligado"
+          echo "patch=${{ steps.versoes.outputs.patch }}_to_ligado"
+          echo "minor=${{ steps.versoes.outputs.minor }}_to_ligado"
+          echo "major=${{ steps.versoes.outputs.major }}_to_ligado"
+          echo "replace_last=${{ steps.ultimatag.outputs.tag }}_to_ligado"
           echo "--- Versão escolhida ---"
           echo "versao=${versao}"
           echo "versao=${versao}" >> "$GITHUB_OUTPUT"
+  Assim:
+    runs-on: ubuntu-latest
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+    steps:
+      - name: Baixando o repositório
+        run: echo assim fica facil
+  FicaFacil:
+    runs-on: ubuntu-latest
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+    steps:
+      - name: Baixando o repositório
+        run: echo assim fica facil
 
   build_back:
     name: Build Back
@@ -76,6 +91,7 @@ jobs:
           cd build/ci_cd_projeto/backend
           npm install
           npm run build
+          echo não vai dar certo copiando o projeto errado
       - name: Executa os testes automatizados
         shell: bash
         run: |
