@@ -16,7 +16,6 @@ on:
         options:
         - TST
         - PRD
-
 jobs:
   app_publish:
     runs-on: ubuntu-latest
