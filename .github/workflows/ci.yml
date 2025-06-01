@@ -89,7 +89,7 @@ jobs:
   
   teste_back:
     name: Teste
-    needs: [build_back]
+    #needs: [build_back]
     runs-on: ubuntu-latest
     steps:
       - name: Baixando o repositório
