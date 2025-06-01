@@ -89,7 +89,7 @@ jobs:
   
   teste_back:
     name: Teste
-    #needs: [build_back]
+    needs: [build_back]
     runs-on: ubuntu-latest
     steps:
       - name: Baixando o repositório
@@ -104,11 +104,6 @@ jobs:
           cd ci_cd_projeto/backend
           npm install
           npm run test:cov
-  #sonarqube:
-    #name: SonarQube
-    #needs: [build_front, teste_back]
-    #runs-on: ubuntu-latest
-    #steps:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
